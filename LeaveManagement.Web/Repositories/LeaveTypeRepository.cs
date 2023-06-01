@@ -8,5 +8,10 @@ namespace LeaveManagement.Web.Repositories
         public LeaveTypeRepository(ApplicationDbContext context) : base(context)
         {
         }
+
+        public Task LeaveAllocation(int leaveTypeId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
