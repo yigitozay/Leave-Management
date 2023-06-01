@@ -1,6 +1,7 @@
 ﻿using LeaveManagement.Web.Configurations.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using LeaveManagement.Web.Data;
 
 namespace LeaveManagement.Web.Data
 {
