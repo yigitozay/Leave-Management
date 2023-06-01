@@ -14,13 +14,15 @@ namespace LeaveManagement.Web.Repositories
         public LeaveAllocationRepository(ApplicationDbContext context,
             UserManager<Employee> userManager, ILeaveTypeRepository leaveTypeRepository) : base(context)
         {
+            this.context = context;
+
             this.userManager = userManager;
             this.leaveTypeRepository = leaveTypeRepository;
         }
 
         public async Task<bool> AllocationExists(string employeeId, int leaveTypeId, int period)
         {
-            return await context.LeaveAllocations.AnyAsync(q=> q.EmployeeId == employeeId && q.LeaveTypeId == leaveTypeId && q.Period ==period);
+            return await context.LeaveAllocations.AnyAsync(q => q.EmployeeId == employeeId && q.LeaveTypeId == leaveTypeId && q.Period == period);
         }
 
         public async Task LeaveAllocation(int leaveTypeId)

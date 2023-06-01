@@ -11,6 +11,7 @@ using LeaveManagement.Web.Models;
 using LeaveManagement.Web.Contracts;
 using Microsoft.AspNetCore.Authorization;
 using LeaveManagement.Web.Constants;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 
 namespace LeaveManagement.Web.Controllers
 {
@@ -26,6 +27,8 @@ namespace LeaveManagement.Web.Controllers
         {
             this.leaveTypeRepository = leaveTypeRepository;
             this.mapper = mapper;
+            this.leaveAllocationRepository = leaveAllocationRepository;
+
         }
 
         // GET: LeaveTypes

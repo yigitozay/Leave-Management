@@ -15,7 +15,12 @@ namespace LeaveManagement.Web.Configurations.Entities
                 {
                     RoleId = "d0cfcdff-acb8-4245-b492-f983d89e40c0",
                     UserId = "d0cfcdff-acb8-424a-b498-f983d89e40c0"
-                }
+                },
+                 new IdentityUserRole<string>
+                 {
+                     RoleId = "d0cfcdff-acb8-s245-a492-f983d89e40c0",
+                     UserId = "d0cfcdff-acb8-424a-b498-f983d89e40c0"
+                 }
                 );
         }
     }
