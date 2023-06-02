@@ -1,6 +1,8 @@
-﻿using LeaveManagement.Web.Constants;
+﻿using AutoMapper;
+using LeaveManagement.Web.Constants;
 using LeaveManagement.Web.Contracts;
 using LeaveManagement.Web.Data;
+using LeaveManagement.Web.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,13 +12,15 @@ namespace LeaveManagement.Web.Repositories
     {
         private readonly ApplicationDbContext context;
         private readonly UserManager<Employee> userManager;
+        private readonly IMapper mapper;
         private readonly ILeaveTypeRepository leaveTypeRepository;
         public LeaveAllocationRepository(ApplicationDbContext context,
-            UserManager<Employee> userManager, ILeaveTypeRepository leaveTypeRepository) : base(context)
+            UserManager<Employee> userManager, IMapper mapper, ILeaveTypeRepository leaveTypeRepository) : base(context)
         {
             this.context = context;
-
             this.userManager = userManager;
+            this.mapper = mapper;
+
             this.leaveTypeRepository = leaveTypeRepository;
         }
 
@@ -24,6 +28,19 @@ namespace LeaveManagement.Web.Repositories
         {
             return await context.LeaveAllocations.AnyAsync(q => q.EmployeeId == employeeId && q.LeaveTypeId == leaveTypeId && q.Period == period);
         }
+
+        public async Task<EmployeeAllocationVM> GetEmployeeAllocations(string employeeId)
+        {
+            var allocations = await context.LeaveAllocations
+                .Include(q=> q.LeaveType)
+                .Where(q => q.EmployeeId == employeeId).ToListAsync();
+            var employee = await userManager.FindByIdAsync(employeeId);
+
+            var employeeAllocationModel = mapper.Map<EmployeeAllocationVM>(employee);
+            employeeAllocationModel.LeaveAllocations = mapper.Map<List<LeaveAllocationVM>>(allocations);
+            return employeeAllocationModel;
+
+        } 
 
         public async Task LeaveAllocation(int leaveTypeId)
         {
