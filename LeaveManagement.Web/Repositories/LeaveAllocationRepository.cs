@@ -29,6 +29,11 @@ namespace LeaveManagement.Web.Repositories
             return await context.LeaveAllocations.AnyAsync(q => q.EmployeeId == employeeId && q.LeaveTypeId == leaveTypeId && q.Period == period);
         }
 
+        public Task<LeaveAllocationEditVM> GetEmployeeAllocation(string employeeId)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<EmployeeAllocationVM> GetEmployeeAllocations(string employeeId)
         {
             var allocations = await context.LeaveAllocations
@@ -62,6 +67,19 @@ namespace LeaveManagement.Web.Repositories
                 });
             }
             await AddRangeAsync(allocations);
+        }
+
+        public async Task<bool> UpdateEmployeeAllocation(LeaveAllocationEditVM model)
+        {
+            var leaveAllocation = await GetAsync(model.Id);
+            if (leaveAllocation == null)
+            {
+                return false;
+            }
+            leaveAllocation.Period = model.period;
+            leaveAllocation.NumberOfDays = model.NumberOfDays;
+            await UpdateAsync(leaveAllocation);
+            return true;
         }
     }
 }
