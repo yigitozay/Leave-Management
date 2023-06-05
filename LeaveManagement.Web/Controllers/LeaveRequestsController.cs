@@ -52,7 +52,7 @@ namespace LeaveManagement.Web.Controllers
             {
                 LeaveTypes = new SelectList(_context.LeaveTypes, "id", "Name")
         };
-            return View();
+            return View(model);
         }
 
         // POST: LeaveRequests/Create
