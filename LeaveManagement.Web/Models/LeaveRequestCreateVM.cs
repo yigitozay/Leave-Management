@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace LeaveManagement.Web.Models
 {
-    public class LeaveRequestCreateVM 
+    public class LeaveRequestCreateVM :IValidatableObject
     {
         [Required]
         [Display(Name ="Start Date")]
@@ -22,6 +22,11 @@ namespace LeaveManagement.Web.Models
 
         public string RequestComments { get; set; }
 
-      
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if(StartDate>EndDate) { 
+              yield return new ValidationResult("The Start Date Must Be  Before End Date", new[] {nameof(StartDate),nameof(EndDate)});
+            }
+        }
     }
 }
