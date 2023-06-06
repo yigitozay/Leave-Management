@@ -9,9 +9,11 @@ using LeaveManagement.Web.Data;
 using LeaveManagement.Web.Models;
 using AutoMapper;
 using LeaveManagement.Web.Contracts;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LeaveManagement.Web.Controllers
 {
+    [Authorize]
     public class LeaveRequestsController : Controller
     {
         private readonly ApplicationDbContext _context;

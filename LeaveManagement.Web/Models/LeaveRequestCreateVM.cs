@@ -17,16 +17,17 @@ namespace LeaveManagement.Web.Models
         [Required]
 
         public int LeaveTypeId { get; set; }
-        public  SelectList LeaveTypes { get; set; }
+        public  SelectList? LeaveTypes { get; set; }
         [Display(Name = "Request Comments")]
 
-        public string RequestComments { get; set; }
+        public string? RequestComments { get; set; }
 
         public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
         {
             if(StartDate>EndDate) { 
               yield return new ValidationResult("The Start Date Must Be  Before End Date", new[] {nameof(StartDate),nameof(EndDate)});
             }
+            
         }
     }
 }
