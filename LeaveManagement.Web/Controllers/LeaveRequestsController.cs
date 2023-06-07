@@ -35,7 +35,10 @@ namespace LeaveManagement.Web.Controllers
             var applicationDbContext = _context.LeaveRequest.Include(l => l.LeaveType);
             return View(await applicationDbContext.ToListAsync());
         }
-
+        public async Task<ActionResult> MyLeave()
+        {
+            return View();
+        }
         // GET: LeaveRequests/Details/5
         public async Task<IActionResult> Details(int? id)
         {
