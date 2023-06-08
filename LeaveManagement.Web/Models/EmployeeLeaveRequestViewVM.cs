@@ -3,5 +3,6 @@
     public class EmployeeLeaveRequestViewVM
     {
         public List<LeaveAllocationVM> leaveAllocations { get; set; }   
+        public List<LeaveRequestVM> LeaveRequests { get; set; }
     }
 }
