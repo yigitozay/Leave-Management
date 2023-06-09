@@ -32,22 +32,23 @@ namespace LeaveManagement.Web.Controllers
         // GET: LeaveRequests
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.LeaveRequest.Include(l => l.LeaveType);
+            var applicationDbContext = _context.LeaveRequests.Include(l => l.LeaveType);
             return View(await applicationDbContext.ToListAsync());
         }
         public async Task<ActionResult> MyLeave()
         {
-            return View();
+            var model = await leaveRequestRepository.GetMyLeaveDetails();
+            return View(model);
         }
         // GET: LeaveRequests/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.LeaveRequest == null)
+            if (id == null || _context.LeaveRequests == null)
             {
                 return NotFound();
             }
 
-            var leaveRequest = await _context.LeaveRequest
+            var leaveRequest = await _context.LeaveRequests
                 .Include(l => l.LeaveType)
                 .FirstOrDefaultAsync(m => m.id == id);
             if (leaveRequest == null)
@@ -97,12 +98,12 @@ namespace LeaveManagement.Web.Controllers
         // GET: LeaveRequests/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.LeaveRequest == null)
+            if (id == null || _context.LeaveRequests == null)
             {
                 return NotFound();
             }
 
-            var leaveRequest = await _context.LeaveRequest.FindAsync(id);
+            var leaveRequest = await _context.LeaveRequests.FindAsync(id);
             if (leaveRequest == null)
             {
                 return NotFound();
@@ -150,12 +151,12 @@ namespace LeaveManagement.Web.Controllers
         // GET: LeaveRequests/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.LeaveRequest == null)
+            if (id == null || _context.LeaveRequests == null)
             {
                 return NotFound();
             }
 
-            var leaveRequest = await _context.LeaveRequest
+            var leaveRequest = await _context.LeaveRequests
                 .Include(l => l.LeaveType)
                 .FirstOrDefaultAsync(m => m.id == id);
             if (leaveRequest == null)
@@ -171,14 +172,14 @@ namespace LeaveManagement.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.LeaveRequest == null)
+            if (_context.LeaveRequests == null)
             {
                 return Problem("Entity set 'ApplicationDbContext.LeaveRequest'  is null.");
             }
-            var leaveRequest = await _context.LeaveRequest.FindAsync(id);
+            var leaveRequest = await _context.LeaveRequests.FindAsync(id);
             if (leaveRequest != null)
             {
-                _context.LeaveRequest.Remove(leaveRequest);
+                _context.LeaveRequests.Remove(leaveRequest);
             }
             
             await _context.SaveChangesAsync();
@@ -187,7 +188,7 @@ namespace LeaveManagement.Web.Controllers
 
         private bool LeaveRequestExists(int id)
         {
-          return (_context.LeaveRequest?.Any(e => e.id == id)).GetValueOrDefault();
+          return (_context.LeaveRequests?.Any(e => e.id == id)).GetValueOrDefault();
         }
     }
 }
