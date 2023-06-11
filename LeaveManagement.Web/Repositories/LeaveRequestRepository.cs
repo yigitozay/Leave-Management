@@ -34,6 +34,11 @@ namespace LeaveManagement.Web.Repositories
             this.leaveAllocationRepository = leaveAllocationRepository;
         }
 
+        public Task ChangeApprovalStatus(int leaveRequestId, bool approved)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task CreateLeaveRequest(LeaveRequestCreateVM model)
         {
             var user = await userManager.GetUserAsync(httpContextAccessor?.HttpContext?.User);
@@ -44,6 +49,20 @@ namespace LeaveManagement.Web.Repositories
             await AddAsync(leaveRequest);
 
 
+        }
+
+        public async Task<AdminLeaveRequestViewVM> GetAdminLeaveRequestList()
+        {
+            var leaveRequests = await GetAllAsync();
+            var model = new AdminLeaveRequestViewVM
+            {
+                TotalRequests = leaveRequests.Count,
+                ApprovedRequests = leaveRequests.Count(q => q.Approved == true),
+                PendingRequests = leaveRequests.Count(q => q.Approved == null),
+                RejectedRequests = leaveRequests.Count(q => q.Approved == false),
+                LeaveRequests = mapper.Map <List< LeaveRequestVM >> (leaveRequests),
+            };
+            return model;
         }
 
         public async Task<List<LeaveRequestVM>> GetAllAsync(string employeeId)
