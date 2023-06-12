@@ -21,7 +21,7 @@ namespace LeaveManagement.Web.Controllers
         private readonly IMapper mapper;
         private readonly ILeaveRequestRepository leaveRequestRepository;
 
-        public LeaveRequestsController(ApplicationDbContext context, IMapper mapper, ILeaveRequestRepository leaveRepository
+        public LeaveRequestsController(ApplicationDbContext context, IMapper mapper, ILeaveRequestRepository leaveRequestRepository
             )
         {
             _context = context;
@@ -34,7 +34,7 @@ namespace LeaveManagement.Web.Controllers
         [Authorize(Roles=Roles.Administrator)]
         public async Task<IActionResult> Index()
         {
-            var model = leaveRequestRepository.GetAdminLeaveRequestList();
+            var model = await leaveRequestRepository.GetAdminLeaveRequestList();
             return View(model);
         }
         public async Task<ActionResult> MyLeave()

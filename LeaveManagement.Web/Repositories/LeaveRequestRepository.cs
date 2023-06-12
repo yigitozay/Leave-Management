@@ -53,7 +53,7 @@ namespace LeaveManagement.Web.Repositories
 
         public async Task<AdminLeaveRequestViewVM> GetAdminLeaveRequestList()
         {
-            var leaveRequests = await GetAllAsync();
+            var leaveRequests = await context.LeaveRequests.Include(q => q.LeaveType).ToListAsync();
             var model = new AdminLeaveRequestViewVM
             {
                 TotalRequests = leaveRequests.Count,
