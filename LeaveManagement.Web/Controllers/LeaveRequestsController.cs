@@ -34,8 +34,8 @@ namespace LeaveManagement.Web.Controllers
         [Authorize(Roles=Roles.Administrator)]
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.LeaveRequests.Include(l => l.LeaveType);
-            return View(await applicationDbContext.ToListAsync());
+            var model = leaveRequestRepository.GetAdminLeaveRequestList();
+            return View(model);
         }
         public async Task<ActionResult> MyLeave()
         {
