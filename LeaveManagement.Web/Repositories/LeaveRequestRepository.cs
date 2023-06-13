@@ -34,9 +34,25 @@ namespace LeaveManagement.Web.Repositories
             this.leaveAllocationRepository = leaveAllocationRepository;
         }
 
-        public Task ChangeApprovalStatus(int leaveRequestId, bool approved)
+        public async Task ChangeApprovalStatus(int leaveRequestId, bool approved)
         {
-            throw new NotImplementedException();
+            var leaveRequest = await GetAsync(leaveRequestId);
+            leaveRequest.Approved = approved;
+
+            if (approved)
+            {
+                var allocation = await leaveAllocationRepository.GetEmployeeAllocation(leaveRequest.RequestingEmployeeId, leaveRequest.LeaveTypeId);
+                int daysRequested = (int)(leaveRequest.EndDate - leaveRequest.StartDate).TotalDays;
+                allocation.NumberOfDays -= daysRequested;
+
+                await leaveAllocationRepository.UpdateAsync(allocation);
+            }
+
+            await UpdateAsync(leaveRequest);
+
+            var user = await userManager.FindByIdAsync(leaveRequest.RequestingEmployeeId);
+            var approvalStatus = approved ? "Approved" : "Declined";
+
         }
 
         public async Task CreateLeaveRequest(LeaveRequestCreateVM model)
