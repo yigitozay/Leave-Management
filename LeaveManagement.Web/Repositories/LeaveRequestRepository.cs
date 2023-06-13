@@ -62,6 +62,10 @@ namespace LeaveManagement.Web.Repositories
                 RejectedRequests = leaveRequests.Count(q => q.Approved == false),
                 LeaveRequests = mapper.Map <List< LeaveRequestVM >> (leaveRequests),
             };
+            foreach (var leaveRequest in model.LeaveRequests)
+            {
+                leaveRequest.Employee = mapper.Map<EmployeeListVM>(await userManager.FindByIdAsync(leaveRequest.RequestingEmployeeId));
+            }
             return model;
         }
 
