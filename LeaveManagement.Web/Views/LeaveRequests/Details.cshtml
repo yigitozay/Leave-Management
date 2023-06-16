@@ -70,12 +70,25 @@
 <div>
     @if(Model.Approved == null)
     {
-        <form asp-action="ApproveRequest">
-            <input asp-for="Id" type="hidden" />
-            <button type="submit" asp-route-approved="true" class="btn btn-success">Approve</button>
-            <button type="submit " asp-route-approved="false" class="btn btn-danger">Reject</button>
-
-        </form>
+        <div class="col">
+            <form asp-action="ApproveRequest" class="form-inline">
+                <input name="Id" value="@Model.Id" type="hidden" />
+                <input name="approved" type="hidden" value="true" />
+                <button type="submit" class="btn btn-success btn-lg">Approve</button>
+            </form>
+        </div>
+        <div class="col">
+            <form asp-action="ApproveRequest" class="form-inline">
+                <input name="Id" value="@Model.Id" type="hidden" />
+                <input name="approved" type="hidden" value="false" />
+                <button type="submit" class="btn btn-danger btn-lg">Reject</button>
+            </form>
+        </div>
+    }
+    <div class="col">
+        <a class="btn btn-dark btn-lg" asp-action="Index">Back to List</a>
+    </div>
+</div>
     }
     <a asp-action="Index">Back to List</a>
 </div>
